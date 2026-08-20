@@ -3,7 +3,7 @@
 **How databases actually work: storage engines, indexes, transactions, isolation, locks, MVCC, replication, partitioning, sharding — explained with diagrams.**
 
 ![Topic](https://img.shields.io/badge/topic-Database%20Design-336791)
-![Diagrams](https://img.shields.io/badge/diagrams-50%2B%20Mermaid-1C3C3C)
+![Diagrams](https://img.shields.io/badge/diagrams-221%20Mermaid-1C3C3C)
 ![Deep dives](https://img.shields.io/badge/deep%20dives-16%20documents-6E40C9)
 ![Engines](https://img.shields.io/badge/engines-B%2BTree%20%2B%20LSM-orange)
 ![Level](https://img.shields.io/badge/level-junior%20%E2%86%92%20staff-238636)
