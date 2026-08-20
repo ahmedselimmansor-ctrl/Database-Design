@@ -1,0 +1,13 @@
+flowchart TD
+    subgraph chain["Version chain for row id = 42"]
+        V1["v1: balance=100<br/>xmin=100, xmax=105"]
+        V2["v2: balance=150<br/>xmin=105, xmax=112"]
+        V3["v3: balance=90<br/>xmin=112, xmax=null (current)"]
+        V1 --> V2 --> V3
+    end
+    T1["Txn 103 (snapshot before 105)<br/>sees v1 → 100"]
+    T2["Txn 108 (snapshot before 112)<br/>sees v2 → 150"]
+    T3["Txn 115<br/>sees v3 → 90"]
+    chain --> T1 & T2 & T3
+    N["xmin = the transaction that created this version<br/>xmax = the transaction that deleted/superseded it<br/>Visibility = xmin committed and visible to me,<br/>AND xmax is null or not visible to me"]
+    style N fill:#0b2545,color:#fff

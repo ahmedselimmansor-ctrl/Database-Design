@@ -1,0 +1,9 @@
+flowchart TD
+    C["Concurrency control"] --> P["PESSIMISTIC — 2PL<br/>assume conflict; lock first"]
+    C --> M["MULTI-VERSION — MVCC<br/>readers see a snapshot;<br/>writers create new versions"]
+    C --> O["OPTIMISTIC — OCC<br/>assume no conflict;<br/>validate at commit"]
+
+    P --> P1["Readers block writers<br/>Writers block readers<br/>Deadlocks possible<br/>Predictable, no aborts from conflict"]
+    M --> M1["READERS NEVER BLOCK WRITERS<br/>WRITERS NEVER BLOCK READERS<br/>Storage for old versions<br/>Requires garbage collection"]
+    O --> O1["No locks during execution<br/>Aborts at commit on conflict<br/>Excellent under low contention<br/>Wasteful under high contention"]
+    style M fill:#14532d,color:#fff

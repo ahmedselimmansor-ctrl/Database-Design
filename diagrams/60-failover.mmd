@@ -1,0 +1,12 @@
+flowchart TD
+    F["Primary fails"] --> D["Detect — is it dead or just slow?"]
+    D --> E["Elect: the replica with the<br/>highest applied LSN"]
+    E --> FEN["FENCE the old primary —<br/>it must not accept writes if it returns"]
+    FEN --> PR["Promote the chosen replica"]
+    PR --> RE["Repoint the other replicas"]
+    RE --> RT["Repoint applications<br/>(DNS, proxy, virtual IP, service discovery)"]
+    RT --> V["Verify and monitor"]
+
+    D --> SB["Getting 'dead vs slow' wrong<br/>⇒ SPLIT BRAIN: two primaries,<br/>divergent data, id collisions"]
+    style SB fill:#7d1128,color:#fff
+    style FEN fill:#14532d,color:#fff

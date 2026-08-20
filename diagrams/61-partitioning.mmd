@@ -1,0 +1,10 @@
+flowchart TD
+    T["orders — 2 billion rows"] --> P["PARTITION BY RANGE (placed_at)"]
+    P --> P1["orders_2026_01"]
+    P --> P2["orders_2026_02"]
+    P --> P3["orders_2026_03"]
+    P --> P4["... one per month"]
+
+    Q["WHERE placed_at >= '2026-03-01'"] --> PR["PARTITION PRUNING:<br/>the planner touches ONLY orders_2026_03"]
+    PR --> B["Scans 60 M rows instead of 2 B ✓<br/>Indexes per partition stay small ✓<br/>DROP an old month = instant, no DELETE ✓<br/>VACUUM and ANALYZE per partition ✓"]
+    style PR fill:#14532d,color:#fff

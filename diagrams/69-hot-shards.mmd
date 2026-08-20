@@ -1,0 +1,9 @@
+flowchart TD
+    H["One shard takes 40% of traffic"] --> C1["Cause: a celebrity tenant,<br/>a viral entity, a skewed key"]
+    C1 --> F1["Split that shard alone<br/>(needs range or directory routing)"]
+    C1 --> F2["Give the outlier a dedicated shard"]
+    C1 --> F3["Sub-key it: shard on<br/>(tenant_id, bucket) with N buckets<br/>for large tenants only"]
+    C1 --> F4["Cache it so the shard is never touched"]
+    C1 --> F5["Read replicas for that shard"]
+    style H fill:#7d1128,color:#fff
+    style F3 fill:#14532d,color:#fff

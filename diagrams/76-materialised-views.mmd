@@ -1,0 +1,6 @@
+flowchart LR
+    V["Regular VIEW<br/>a stored query — re-executed every time"] --> M["MATERIALISED VIEW<br/>results stored physically, indexable"]
+    M --> R1["REFRESH MATERIALIZED VIEW<br/>— takes an exclusive lock"]
+    M --> R2["REFRESH ... CONCURRENTLY<br/>— no lock, slower, needs a unique index"]
+    M --> T["Trade: query cost moves from<br/>read time to refresh time.<br/>Data is stale between refreshes."]
+    style R2 fill:#14532d,color:#fff

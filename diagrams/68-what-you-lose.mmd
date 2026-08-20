@@ -1,0 +1,9 @@
+flowchart TD
+    L["Losses"] --> L1["Cross-shard JOIN<br/>→ query each shard, join in the app,<br/>or denormalise, or keep a<br/>replicated reference table on every shard"]
+    L --> L2["Cross-shard TRANSACTION<br/>→ 2PC (slow, blocking) or a saga<br/>(eventual, compensating)"]
+    L --> L3["Global UNIQUE / AUTO_INCREMENT<br/>→ UUIDv7 or Snowflake ids"]
+    L --> L4["Global ORDER BY + LIMIT<br/>→ fetch top-N from EVERY shard,<br/>merge, then take N. Deep pages are brutal."]
+    L --> L5["Global aggregates<br/>→ scatter-gather, or a<br/>pre-aggregated summary store"]
+    L --> L6["Simple schema migration<br/>→ now N migrations with partial-failure states"]
+    style L2 fill:#7d1128,color:#fff
+    style L4 fill:#7d1128,color:#fff

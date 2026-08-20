@@ -1,0 +1,12 @@
+flowchart TD
+    subgraph heap["Heap table — PostgreSQL"]
+        H1["Rows live in insertion order<br/>in an unordered heap file"]
+        H2["Every index (including PK)<br/>stores a physical row pointer"]
+        H3["+ Secondary index lookups are one hop<br/>+ Cheap to add indexes<br/>− PK range scans hit random pages<br/>− Row moves must update every index"]
+    end
+    subgraph clus["Clustered index — InnoDB, SQL Server"]
+        C1["Rows are STORED INSIDE<br/>the primary key B+Tree, in PK order"]
+        C2["Secondary indexes store the<br/>PRIMARY KEY, not a row pointer"]
+        C3["+ PK range scans are sequential ✓<br/>+ PK lookup returns the whole row ✓<br/>− Secondary lookup = 2 tree traversals<br/>− A wide PK bloats EVERY secondary index"]
+    end
+    style clus fill:#134e4a,color:#fff

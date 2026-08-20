@@ -1,0 +1,6 @@
+flowchart TD
+    U["Unnormalised<br/>ORDER(id, customer, customer_email,<br/>products='A,B,C', total)"] -->|"atomic values"| F1
+    F1["1NF<br/>ORDER(id, customer, customer_email)<br/>ORDER_ITEM(order_id, product, qty)"] -->|"remove partial deps"| F2
+    F2["2NF<br/>ORDER_ITEM(order_id, product_id, qty)<br/>PRODUCT(id, name, price)"] -->|"remove transitive deps"| F3
+    F3["3NF<br/>ORDER(id, customer_id)<br/>CUSTOMER(id, name, email)"] --> STOP["3NF/BCNF is where<br/>almost every OLTP schema<br/>should live."]
+    style STOP fill:#14532d,color:#fff

@@ -1,0 +1,7 @@
+flowchart TD
+    L["A transaction open for 30 minutes"] --> P1["Holds locks the whole time<br/>⇒ writers queue behind it"]
+    L --> P2["Pins its MVCC snapshot<br/>⇒ vacuum cannot remove ANY row version<br/>newer than its start ⇒ table bloat"]
+    L --> P3["Holds a connection from the pool"]
+    L --> P4["Keeps WAL segments from being recycled<br/>⇒ disk fills"]
+    L --> P5["On a replica: conflicts with apply,<br/>causing replication delay or query cancellation"]
+    style L fill:#7d1128,color:#fff

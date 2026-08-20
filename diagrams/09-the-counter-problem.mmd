@@ -1,0 +1,11 @@
+flowchart TD
+    P["1,000 concurrent comments<br/>on one popular post"] --> U["UPDATE posts SET comment_count = comment_count + 1<br/>WHERE id = 42"]
+    U --> L["All 1,000 transactions need the<br/>exclusive row lock on ONE row"]
+    L --> S["They serialise. Throughput = 1/lock_duration.<br/>Everything queues. Lock waits everywhere."]
+    S --> F["Fixes"]
+    F --> F1["Sharded counters: N rows per entity,<br/>increment a random one, SUM on read"]
+    F --> F2["Write to a queue, batch-apply<br/>every few seconds"]
+    F --> F3["Keep the counter in Redis,<br/>flush periodically"]
+    F --> F4["Compute on read from an index<br/>if the count is small"]
+    style S fill:#7d1128,color:#fff
+    style F1 fill:#14532d,color:#fff

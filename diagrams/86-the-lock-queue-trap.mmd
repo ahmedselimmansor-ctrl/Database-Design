@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant L as Long SELECT
+    participant M as ALTER TABLE
+    participant Q as 500 normal queries
+
+    L->>L: running for 30 s (holds ACCESS SHARE)
+    M->>M: requests ACCESS EXCLUSIVE → must wait
+    Note over M: the ALTER is now QUEUED
+    Q->>Q: 500 ordinary queries arrive
+    Note over Q: they queue BEHIND the ALTER —<br/>lock requests are FIFO
+    Note over L,Q: a "metadata-only, instant" migration<br/>has now stalled the entire application<br/>for 30 seconds

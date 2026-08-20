@@ -1,0 +1,6 @@
+flowchart TD
+    S["Transaction locks row after row"] --> C{"Lock count exceeds threshold<br/>(e.g. 5,000 in SQL Server)"}
+    C -->|"yes"| E["ESCALATE: release the row locks,<br/>take ONE table lock"]
+    E --> B["Memory saved.<br/>Concurrency destroyed —<br/>the whole table is now blocked."]
+    C -->|"no"| K["Keep row locks"]
+    style B fill:#7d1128,color:#fff

@@ -1,0 +1,11 @@
+flowchart TD
+    D["Database"] --> P["Persistence<br/>survive process and machine failure"]
+    D --> C["Concurrency<br/>many clients, one correct outcome"]
+    D --> I["Integrity<br/>invariants that code cannot bypass"]
+    D --> Q["Query<br/>ask questions the schema did not anticipate"]
+
+    P --> P1["WAL, fsync, checkpoints, replication"]
+    C --> C1["Locks, MVCC, isolation levels"]
+    I --> I1["Constraints, foreign keys, types, triggers"]
+    Q --> Q1["Indexes, planner, join algorithms"]
+    style D fill:#0b2545,color:#fff

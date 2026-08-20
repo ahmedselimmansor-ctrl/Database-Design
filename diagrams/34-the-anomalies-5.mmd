@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant A as Dr. Alice
+    participant D as Database
+    participant B as Dr. Bob
+
+    Note over D: rule — at least ONE doctor must be on call.<br/>Currently: Alice and Bob, both on call.
+    A->>D: SELECT count(*) WHERE on_call = true  → 2
+    B->>D: SELECT count(*) WHERE on_call = true  → 2
+    A->>D: "2 > 1, safe" → UPDATE alice SET on_call = false
+    B->>D: "2 > 1, safe" → UPDATE bob SET on_call = false
+    A->>D: COMMIT
+    B->>D: COMMIT
+    Note over D: ZERO doctors on call.<br/>Snapshot isolation permits this —<br/>they wrote DIFFERENT rows, so nothing conflicted.

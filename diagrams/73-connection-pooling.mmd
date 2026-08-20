@@ -1,0 +1,8 @@
+flowchart TD
+    N["Why pool?"] --> C1["A Postgres connection = one OS process<br/>≈ 5-10 MB, plus per-connection work_mem"]
+    N --> C2["TCP + TLS + auth handshake<br/>≈ 5-50 ms per new connection"]
+    N --> C3["Beyond ~2-4x the core count,<br/>more connections REDUCE throughput —<br/>context switching and lock contention"]
+
+    C3 --> G["Correct sizing:<br/>connections ≈ (2 x cores) + effective_spindles<br/>Often 20-50, not 500."]
+    style G fill:#14532d,color:#fff
+    style C3 fill:#7d1128,color:#fff

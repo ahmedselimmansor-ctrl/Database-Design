@@ -1,0 +1,7 @@
+flowchart TD
+    W["What partitioning actually buys"] --> W1["Pruning — scan one partition, not the table"]
+    W --> W2["Cheap bulk deletion — DROP PARTITION is<br/>metadata-only. A DELETE of 60 M rows<br/>writes 60 M dead tuples and a WAL flood."]
+    W --> W3["Smaller per-partition indexes<br/>⇒ shallower trees, better cache locality"]
+    W --> W4["Parallel maintenance — vacuum, analyze,<br/>reindex, backup per partition"]
+    W --> W5["Tiered storage — old partitions on<br/>cheap disks, recent ones on NVMe"]
+    style W2 fill:#14532d,color:#fff

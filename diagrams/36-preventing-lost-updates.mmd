@@ -1,0 +1,12 @@
+flowchart TD
+    L["Read-modify-write concurrency"] --> S1["1. Atomic in-database update<br/>UPDATE t SET n = n - 1 WHERE id = ? AND n > 0"]
+    L --> S2["2. Pessimistic lock<br/>SELECT ... FOR UPDATE"]
+    L --> S3["3. Optimistic concurrency<br/>UPDATE ... WHERE version = $old<br/>0 rows ⇒ someone else won ⇒ retry"]
+    L --> S4["4. SERIALIZABLE + retry on 40001"]
+
+    S1 --> N1["Best when expressible.<br/>No round trip, no lock held across<br/>the application's thinking time"]
+    S2 --> N2["Simple and correct.<br/>Holds a lock; deadlock risk;<br/>NEVER hold it across a network call"]
+    S3 --> N3["No locks. Great under low contention.<br/>Wasted work under high contention"]
+    S4 --> N4["Correct for everything including<br/>write skew. Costs aborts and retries"]
+    style S1 fill:#14532d,color:#fff
+    style S3 fill:#0d3b66,color:#fff

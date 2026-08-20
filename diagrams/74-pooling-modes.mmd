@@ -1,0 +1,9 @@
+flowchart TD
+    M["Pooling mode"] --> S["SESSION<br/>a client holds a server connection<br/>until it disconnects"]
+    M --> T["TRANSACTION<br/>a server connection is assigned<br/>per transaction"]
+    M --> ST["STATEMENT<br/>per individual statement"]
+
+    S --> S1["Fully compatible: temp tables,<br/>prepared statements, SET, advisory locks.<br/>Poor multiplexing."]
+    T --> T1["BEST ratio for most apps —<br/>1,000 clients over 30 server connections.<br/>BREAKS: session state, session-level<br/>advisory locks, LISTEN/NOTIFY,<br/>and naive prepared statements."]
+    ST --> ST1["Maximum multiplexing.<br/>NO multi-statement transactions."]
+    style T fill:#14532d,color:#fff

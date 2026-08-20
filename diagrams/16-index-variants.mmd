@@ -1,0 +1,15 @@
+flowchart TD
+    V["Beyond a plain single-column index"] --> C["Composite<br/>INDEX (a, b, c)"]
+    V --> CV["Covering / INCLUDE<br/>INDEX (a) INCLUDE (b, c)"]
+    V --> P["Partial / filtered<br/>INDEX (a) WHERE status = 'active'"]
+    V --> F["Expression / functional<br/>INDEX (lower(email))"]
+    V --> U["Unique<br/>enforces a constraint AND indexes"]
+    V --> D["Descending / mixed order<br/>INDEX (a ASC, b DESC)"]
+
+    C --> C1["Serves prefix queries: (a), (a,b), (a,b,c)"]
+    CV --> CV1["Index-only scan: the query is answered<br/>WITHOUT touching the table at all"]
+    P --> P1["Much smaller and faster when queries<br/>always carry the same filter.<br/>90% of rows soft-deleted? Index the 10%"]
+    F --> F1["Required if you query lower(email) —<br/>a plain index on email will NOT be used"]
+    D --> D1["Needed for ORDER BY a ASC, b DESC<br/>without a sort step"]
+    style CV fill:#14532d,color:#fff
+    style P fill:#14532d,color:#fff

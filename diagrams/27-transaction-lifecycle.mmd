@@ -1,0 +1,16 @@
+stateDiagram-v2
+    [*] --> Active: BEGIN
+    Active --> Active: read / write
+    Active --> PartiallyCommitted: final statement executes
+    Active --> Failed: error, deadlock victim,<br/>constraint violation, timeout
+    PartiallyCommitted --> Committed: WAL flushed to durable storage
+    PartiallyCommitted --> Failed: flush fails
+    Failed --> Aborted: ROLLBACK — undo all changes
+    Committed --> [*]
+    Aborted --> [*]
+
+    note right of PartiallyCommitted
+        The commit point is the fsync of the
+        WAL record — not the last statement.
+        Before that fsync, a crash loses everything.
+    end note

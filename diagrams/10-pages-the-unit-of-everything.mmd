@@ -1,0 +1,11 @@
+flowchart TD
+    subgraph page["An 8 KB heap page"]
+        H["Page header — LSN, checksum,<br/>free space pointers"]
+        L["Line pointer array<br/>(item id → offset) grows down →"]
+        F["Free space"]
+        T["← Tuples grow up<br/>row 3, row 2, row 1"]
+        S["Special area"]
+    end
+    N["Indirection matters: an index points to a<br/>LINE POINTER, not to a byte offset.<br/>A row can move within the page during<br/>compaction without any index update."]
+    style page fill:#0b2545,color:#fff
+    style N fill:#422006,color:#fff

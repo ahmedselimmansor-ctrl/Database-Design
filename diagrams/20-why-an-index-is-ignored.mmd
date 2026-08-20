@@ -1,0 +1,11 @@
+flowchart TD
+    Q["My index isn't being used"] --> C1["Function on the column<br/>WHERE lower(email) = ... ⇒ need an expression index"]
+    Q --> C2["Implicit type cast<br/>WHERE varchar_col = 123"]
+    Q --> C3["Leading wildcard<br/>LIKE '%term' — no prefix to seek on"]
+    Q --> C4["Low selectivity<br/>the value matches 40% of rows ⇒<br/>a sequential scan is genuinely cheaper"]
+    Q --> C5["Stale statistics<br/>the planner's estimate is wrong ⇒ ANALYZE"]
+    Q --> C6["OR across different columns<br/>⇒ rewrite as UNION, or add a<br/>multi-column/bitmap-combinable index"]
+    Q --> C7["Small table<br/>everything fits in one or two pages"]
+    Q --> C8["NULL handling or collation mismatch"]
+    style C4 fill:#14532d,color:#fff
+    style C5 fill:#0d3b66,color:#fff

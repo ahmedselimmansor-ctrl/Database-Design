@@ -1,0 +1,12 @@
+flowchart TD
+    R["Replication method"] --> S["Statement-based<br/>ship the SQL text"]
+    R --> P["Physical / WAL shipping<br/>ship byte-level page changes"]
+    R --> L["Logical / row-based<br/>ship before/after row images"]
+    R --> T["Trigger-based<br/>application-level capture"]
+
+    S --> S1["Compact. BREAKS on non-determinism:<br/>NOW(), RANDOM(), UUID(), auto-increment,<br/>triggers, and anything order-dependent."]
+    P --> P1["Exact and cheap. Replica is a byte-identical<br/>copy — SAME major version, same platform,<br/>whole cluster only, no filtering."]
+    L --> L1["Version-independent. Can filter tables,<br/>replicate to a DIFFERENT system,<br/>and drive CDC. Larger volume."]
+    T --> T1["Fully flexible, slow, invasive.<br/>Legacy approach."]
+    style P fill:#0b2545,color:#fff
+    style L fill:#14532d,color:#fff

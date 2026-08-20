@@ -1,0 +1,10 @@
+flowchart LR
+    subgraph g["Growing phase"]
+        G["Acquire locks freely.<br/>NEVER release one."]
+    end
+    subgraph s["Shrinking phase"]
+        S["Release locks.<br/>NEVER acquire one."]
+    end
+    g -->|"lock point — the peak"| s
+    N["The rule 'no acquire after the first release'<br/>is what guarantees SERIALISABILITY.<br/>Strict 2PL holds ALL locks until commit,<br/>which additionally guarantees recoverability."]
+    style N fill:#422006,color:#fff

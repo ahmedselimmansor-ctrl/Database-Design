@@ -1,0 +1,6 @@
+flowchart LR
+    R["READ phase<br/>work on a private copy,<br/>record the read set"] --> V["VALIDATE phase<br/>did anything I read change?"]
+    V -->|"no"| W["WRITE phase — commit"]
+    V -->|"yes"| A["ABORT and retry"]
+    style W fill:#14532d,color:#fff
+    style A fill:#7d1128,color:#fff

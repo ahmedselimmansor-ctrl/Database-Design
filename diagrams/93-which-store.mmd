@@ -1,0 +1,13 @@
+flowchart TD
+    Q["Start here"] --> A{"Do I need multi-row<br/>transactions or ad-hoc queries?"}
+    A -->|"yes"| REL{"Does it fit one node?<br/>(remember: 2 TB RAM, 100 TB NVMe)"}
+    REL -->|"yes"| PG["PostgreSQL / MySQL<br/>+ replicas + partitioning"]
+    REL -->|"no"| DSQL["Distributed SQL<br/>CockroachDB, TiDB, Spanner, Yugabyte"]
+    A -->|"no"| B{"Access shape?"}
+    B -->|"key lookups only"| KV["Key-value"]
+    B -->|"documents by field"| DOC["Document"]
+    B -->|"massive writes,<br/>ordered reads per entity"| WC["Wide-column"]
+    B -->|"traversals"| GR["Graph"]
+    B -->|"metrics over time"| TS["Time-series"]
+    B -->|"analytical scans"| COL["Columnar warehouse"]
+    style PG fill:#14532d,color:#fff

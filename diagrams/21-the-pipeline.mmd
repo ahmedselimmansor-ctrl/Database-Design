@@ -1,0 +1,8 @@
+flowchart LR
+    S["SQL text"] --> P["Parser<br/>→ syntax tree"]
+    P --> A["Analyser<br/>resolve names, types,<br/>check permissions"]
+    A --> R["Rewriter<br/>expand views, apply rules,<br/>flatten subqueries"]
+    R --> O["Planner / Optimiser<br/>enumerate plans, estimate cost,<br/>pick the cheapest"]
+    O --> E["Executor<br/>run the chosen plan tree"]
+    E --> RES["Result"]
+    style O fill:#0b2545,color:#fff

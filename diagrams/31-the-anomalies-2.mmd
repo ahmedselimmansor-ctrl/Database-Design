@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant A as Txn A
+    participant D as Database
+    participant B as Txn B
+
+    A->>D: SELECT balance WHERE id = 1  → 100
+    B->>D: UPDATE balance = 200 WHERE id = 1
+    B->>D: COMMIT
+    A->>D: SELECT balance WHERE id = 1  → 200  ⚠ changed mid-transaction
+    Note over A: a report computed across two reads<br/>is now internally inconsistent

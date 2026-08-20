@@ -1,0 +1,12 @@
+flowchart TD
+    R["Mapping a key to a shard"] --> M1["Modulo: hash(key) % N"]
+    R --> M2["Range: lookup table of key ranges"]
+    R --> M3["Directory: explicit key → shard map"]
+    R --> M4["Consistent hashing ring + vnodes"]
+
+    M1 --> N1["Simple. Changing N remaps<br/>~ALL keys. Effectively unresharding."]
+    M2 --> N2["Range queries work.<br/>Ranges can be split when hot."]
+    M3 --> N3["Total flexibility, per-key placement,<br/>easy migration. The map is a<br/>dependency on every query."]
+    M4 --> N4["Adding a node moves only K/N keys.<br/>The standard for large fleets."]
+    style M4 fill:#14532d,color:#fff
+    style M1 fill:#3b0d0d,color:#fff

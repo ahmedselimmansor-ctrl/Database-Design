@@ -1,0 +1,5 @@
+flowchart TD
+    T["Unnormalised table<br/>order_id, customer_name, customer_email,<br/>product_name, product_price, qty"] --> A1["UPDATE anomaly<br/>Customer changes email ⇒ update<br/>every order row. Miss one ⇒ inconsistent."]
+    T --> A2["INSERT anomaly<br/>Cannot record a customer<br/>who has not ordered yet."]
+    T --> A3["DELETE anomaly<br/>Delete the last order ⇒<br/>the customer disappears."]
+    style T fill:#7d1128,color:#fff

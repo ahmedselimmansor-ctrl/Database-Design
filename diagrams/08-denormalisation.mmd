@@ -1,0 +1,14 @@
+flowchart TD
+    D["Denormalisation techniques"] --> D1["Duplicated column<br/>copy customer_name onto orders"]
+    D --> D2["Precomputed aggregate<br/>order_count on customers"]
+    D --> D3["Materialised view<br/>engine maintains it"]
+    D --> D4["Summary/rollup table<br/>refreshed on a schedule"]
+    D --> D5["Historical snapshot<br/>price_at_purchase — NOT denormalisation,<br/>this is a different fact"]
+
+    D1 --> R1["Risk: divergence on update.<br/>Needs a trigger, a job, or app discipline"]
+    D2 --> R2["Risk: counter drift, and write<br/>contention on the counter row"]
+    D3 --> R3["Safest — the engine owns freshness.<br/>Refresh cost and staleness window"]
+    D5 --> R5["Not a risk at all — always correct"]
+    style D5 fill:#14532d,color:#fff
+    style D3 fill:#0d3b66,color:#fff
+    style D1 fill:#3b0d0d,color:#fff

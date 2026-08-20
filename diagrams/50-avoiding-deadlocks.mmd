@@ -1,0 +1,9 @@
+flowchart TD
+    P["Prevention in application code"] --> P1["1. CONSISTENT LOCK ORDERING<br/>always touch rows in ascending id order.<br/>This eliminates the majority of deadlocks."]
+    P --> P2["2. Keep transactions short<br/>less time holding = less time to collide"]
+    P --> P3["3. Lock everything up front<br/>SELECT ... FOR UPDATE the whole set<br/>in one ordered statement"]
+    P --> P4["4. Lower the isolation level<br/>where correctness permits"]
+    P --> P5["5. Index the predicates —<br/>an unindexed UPDATE locks rows<br/>it never needed to touch"]
+    P --> P6["6. ALWAYS RETRY on 40001/40P01.<br/>Deadlocks are normal, not exceptional."]
+    style P1 fill:#14532d,color:#fff
+    style P6 fill:#14532d,color:#fff

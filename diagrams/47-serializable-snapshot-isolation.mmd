@@ -1,0 +1,5 @@
+flowchart TD
+    S["SSI monitors read/write dependencies<br/>between concurrent transactions"] --> D["Detects the dangerous structure<br/>that permits write skew"]
+    D --> A["Aborts one participant with<br/>SQLSTATE 40001 — serialization_failure"]
+    A --> R["The APPLICATION MUST RETRY.<br/>This is not optional — it is the contract."]
+    style R fill:#7d1128,color:#fff

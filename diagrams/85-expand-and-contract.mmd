@@ -1,0 +1,10 @@
+flowchart LR
+    E1["1. EXPAND<br/>add the new nullable column.<br/>Old code ignores it."] --> E2["2. DUAL WRITE<br/>new code writes both<br/>old and new."]
+    E2 --> E3["3. BACKFILL<br/>populate historical rows<br/>in batches."]
+    E3 --> E4["4. MIGRATE READS<br/>new code reads the new column.<br/>Verify."]
+    E4 --> E5["5. STOP writing the old column."]
+    E5 --> E6["6. CONTRACT<br/>drop the old column."]
+    N["Each step is a SEPARATE, independently<br/>reversible deploy. Never combine them."]
+    style E1 fill:#14532d,color:#fff
+    style E6 fill:#0b2545,color:#fff
+    style N fill:#422006,color:#fff

@@ -1,0 +1,31 @@
+flowchart TD
+    subgraph S["Schema"]
+        S1["EAV — entity-attribute-value<br/>'flexible' schema that defeats types,<br/>constraints, indexes and the planner"]
+        S2["Comma-separated values in a column<br/>violates 1NF; unindexable; unjoinable"]
+        S3["Polymorphic FK — owner_type + owner_id<br/>no referential integrity possible"]
+        S4["Every column nullable<br/>NULL stops meaning 'unknown'"]
+        S5["FLOAT for money"]
+    end
+    subgraph Q["Query"]
+        Q1["SELECT * everywhere<br/>defeats covering indexes,<br/>breaks on schema change"]
+        Q2["N+1 queries"]
+        Q3["OFFSET for deep pagination"]
+        Q4["Functions on indexed columns<br/>in the WHERE clause"]
+        Q5["Unbounded result sets"]
+    end
+    subgraph I["Index"]
+        I1["Index every column 'just in case'"]
+        I2["No index on foreign keys<br/>⇒ parent deletes scan the child table"]
+        I3["Redundant indexes:<br/>(a) alongside (a,b)"]
+        I4["UUIDv4 primary keys on hot tables"]
+    end
+    subgraph T["Transaction"]
+        T1["Long transactions holding locks"]
+        T2["Network calls inside a transaction"]
+        T3["No retry on serialisation failure<br/>or deadlock"]
+        T4["Application-level uniqueness checks<br/>instead of a UNIQUE constraint"]
+    end
+    style S fill:#7d1128,color:#fff
+    style Q fill:#7d1128,color:#fff
+    style I fill:#7d1128,color:#fff
+    style T fill:#7d1128,color:#fff

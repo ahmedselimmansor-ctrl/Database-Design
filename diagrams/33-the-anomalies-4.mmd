@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant A as Txn A
+    participant D as Database
+    participant B as Txn B
+
+    A->>D: SELECT stock WHERE id = 1  → 10
+    B->>D: SELECT stock WHERE id = 1  → 10
+    A->>D: UPDATE stock = 10 - 1 = 9
+    A->>D: COMMIT
+    B->>D: UPDATE stock = 10 - 1 = 9
+    B->>D: COMMIT
+    Note over D: Two items sold. Stock says 9.<br/>Should be 8. NO ERROR WAS RAISED.

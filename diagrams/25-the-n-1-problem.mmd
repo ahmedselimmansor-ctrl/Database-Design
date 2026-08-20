@@ -1,0 +1,11 @@
+flowchart TD
+    subgraph bad["N+1 — 1,001 round trips"]
+        B1["SELECT * FROM orders LIMIT 1000"] --> B2["for each order:<br/>SELECT * FROM customers WHERE id = ?"]
+        B2 --> B3["1,001 queries.<br/>At 1 ms network RTT each = 1 second<br/>of pure latency, all of it avoidable."]
+    end
+    subgraph good["Fixed — 2 round trips"]
+        G1["SELECT * FROM orders LIMIT 1000"] --> G2["SELECT * FROM customers<br/>WHERE id = ANY($1)"]
+        G2 --> G3["Or a single JOIN.<br/>Or a DataLoader-style batcher."]
+    end
+    style bad fill:#7d1128,color:#fff
+    style good fill:#14532d,color:#fff

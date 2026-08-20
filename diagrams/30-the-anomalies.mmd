@@ -1,0 +1,11 @@
+sequenceDiagram
+    participant A as Txn A
+    participant D as Database
+    participant B as Txn B
+
+    A->>D: UPDATE accounts SET balance = 500 WHERE id = 1
+    Note over D: uncommitted
+    B->>D: SELECT balance WHERE id = 1
+    D-->>B: 500  ⚠ never committed
+    A->>D: ROLLBACK
+    Note over B: B acted on a value that<br/>NEVER EXISTED in the database

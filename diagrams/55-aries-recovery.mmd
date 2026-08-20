@@ -1,0 +1,7 @@
+flowchart LR
+    C["CRASH"] --> A["1. ANALYSIS<br/>scan WAL from the last checkpoint.<br/>Determine which pages were dirty and<br/>which transactions were in flight."]
+    A --> R["2. REDO<br/>replay ALL logged changes from the<br/>earliest dirty page — including those of<br/>transactions that later aborted.<br/>Restores the exact pre-crash state."]
+    R --> U["3. UNDO<br/>roll back every transaction that had<br/>not committed, in reverse order,<br/>writing compensation log records."]
+    U --> D["Consistent database"]
+    style R fill:#0d3b66,color:#fff
+    style D fill:#14532d,color:#fff

@@ -1,0 +1,11 @@
+flowchart LR
+    subgraph pg["PostgreSQL — versions in the heap"]
+        P1["New version written into the table itself"]
+        P2["+ Old versions readable with no extra hop<br/>− Table BLOATS; needs VACUUM<br/>− Every index must point to the new version too<br/>  (mitigated by HOT updates when no<br/>  indexed column changed)"]
+    end
+    subgraph iu["InnoDB / Oracle — versions in undo"]
+        I1["Row updated in place;<br/>old image goes to the undo/rollback segment"]
+        I2["+ Table stays compact<br/>− Reading an old version walks the undo chain<br/>− A long transaction grows undo without bound"]
+    end
+    style pg fill:#0b2545,color:#fff
+    style iu fill:#134e4a,color:#fff

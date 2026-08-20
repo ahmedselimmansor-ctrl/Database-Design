@@ -1,0 +1,10 @@
+flowchart LR
+    subgraph etl["ETL — classic"]
+        E1["Extract"] --> T1["Transform<br/>in a separate engine"] --> L1["Load into the warehouse"]
+        N1["Transform before load.<br/>Only clean data lands.<br/>Reprocessing means re-extracting."]
+    end
+    subgraph elt["ELT — modern"]
+        E2["Extract"] --> L2["Load RAW into the warehouse"] --> T2["Transform IN the warehouse<br/>with SQL"]
+        N2["Warehouse compute is cheap and elastic.<br/>Raw data is retained, so you can<br/>reprocess with new logic. ✓"]
+    end
+    style elt fill:#14532d,color:#fff

@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant A as Txn A
+    participant D as Database
+    participant B as Txn B
+
+    A->>D: SELECT count(*) FROM orders WHERE total > 100  → 42
+    B->>D: INSERT INTO orders (total) VALUES (150)
+    B->>D: COMMIT
+    A->>D: SELECT count(*) FROM orders WHERE total > 100  → 43  ⚠ a phantom appeared
+    Note over A,B: this is a RANGE problem, not a row problem —<br/>locking the 42 rows A read would not have prevented it

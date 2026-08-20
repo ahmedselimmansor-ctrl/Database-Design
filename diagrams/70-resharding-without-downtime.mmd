@@ -1,0 +1,9 @@
+flowchart LR
+    S1["1. Add the new shards,<br/>register them in the map"] --> S2["2. DUAL WRITE:<br/>write to both old and new locations"]
+    S2 --> S3["3. BACKFILL historical data<br/>in batches, verifying as you go"]
+    S3 --> S4["4. SHADOW READ:<br/>read both, compare, log mismatches.<br/>Serve the OLD result."]
+    S4 --> S5["5. Cut reads over per cohort,<br/>watching error rates"]
+    S5 --> S6["6. Stop dual writing"]
+    S6 --> S7["7. Drop the old data<br/>— after a safe delay"]
+    style S4 fill:#0d3b66,color:#fff
+    style S7 fill:#14532d,color:#fff

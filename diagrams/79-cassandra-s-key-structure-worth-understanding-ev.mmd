@@ -1,0 +1,7 @@
+flowchart TD
+    PK["Partition key → hash → node"] --> P1["All rows with the same partition key<br/>live together, on the same node,<br/>physically sorted by the clustering keys"]
+    P1 --> G["✓ 'Last 50 messages in conversation X'<br/>= ONE node, ONE sequential read"]
+    P1 --> B["✗ 'All messages by user Y across<br/>conversations' = every node.<br/>Write a SECOND table keyed by user."]
+    P1 --> W["⚠ Unbounded partitions are the classic<br/>failure: a conversation with 10 M messages<br/>becomes one enormous row on one node.<br/>Bucket it: ((conversation_id, month), ...)"]
+    style G fill:#14532d,color:#fff
+    style W fill:#7d1128,color:#fff

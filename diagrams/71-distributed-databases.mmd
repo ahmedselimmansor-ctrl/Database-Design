@@ -1,0 +1,11 @@
+flowchart TD
+    T["Table"] --> R["Split into RANGES<br/>(contiguous key spans, ~64-512 MB)"]
+    R --> R1["Range A — replicas on nodes 1,3,5<br/>Raft group, leader = node 1"]
+    R --> R2["Range B — replicas on nodes 2,4,6<br/>Raft group, leader = node 4"]
+    R --> R3["Range C — replicas on nodes 1,4,5<br/>Raft group, leader = node 5"]
+
+    N["Each range is INDEPENDENTLY replicated<br/>by consensus. Ranges split when large<br/>and merge when small, automatically.<br/>Leaders rebalance across nodes for load."]
+
+    TX["A transaction touching A and C<br/>runs 2PC across those two Raft groups —<br/>and the COORDINATOR is itself<br/>consensus-replicated, so no single<br/>failure can block it."]
+    style TX fill:#14532d,color:#fff
+    style N fill:#0b2545,color:#fff

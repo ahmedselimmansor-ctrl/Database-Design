@@ -1,0 +1,36 @@
+erDiagram
+    FACT_SALES }o--|| DIM_DATE : "on"
+    FACT_SALES }o--|| DIM_PRODUCT : "of"
+    FACT_SALES }o--|| DIM_CUSTOMER : "to"
+    FACT_SALES }o--|| DIM_STORE : "at"
+
+    FACT_SALES {
+        bigint sale_id PK
+        int date_key FK
+        int product_key FK
+        int customer_key FK
+        int store_key FK
+        int quantity
+        numeric unit_price
+        numeric discount
+        numeric total
+    }
+    DIM_DATE {
+        int date_key PK
+        date full_date
+        int year
+        int quarter
+        int month
+        int day_of_week
+        boolean is_holiday
+    }
+    DIM_PRODUCT {
+        int product_key PK
+        text sku
+        text name
+        text category
+        text brand
+        date valid_from
+        date valid_to
+        boolean is_current
+    }

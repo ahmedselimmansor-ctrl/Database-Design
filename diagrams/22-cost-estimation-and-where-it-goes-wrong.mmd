@@ -1,0 +1,11 @@
+flowchart TD
+    E["Estimated rows: 12"] --> P["Planner picks a NESTED LOOP<br/>(great for 12 rows)"]
+    A["Actual rows: 2,400,000"] --> D["The nested loop performs<br/>2.4 M index lookups"]
+    P & A --> R["Query takes 40 minutes<br/>instead of 200 ms"]
+    R --> C["ROOT CAUSE is nearly always one of:"]
+    C --> C1["Stale statistics — run ANALYZE"]
+    C --> C2["Correlated predicates the planner<br/>assumes are independent<br/>(city='Cairo' AND country='EG')"]
+    C --> C3["A function or expression it cannot estimate"]
+    C --> C4["Parameter sniffing — plan cached<br/>for an unrepresentative value"]
+    style R fill:#7d1128,color:#fff
+    style C2 fill:#0d3b66,color:#fff

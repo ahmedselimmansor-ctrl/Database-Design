@@ -1,0 +1,9 @@
+flowchart LR
+    DB[("PostgreSQL<br/>wal_level = logical")] -->|"replication slot"| DBZ["Debezium connector"]
+    DBZ --> K["Kafka topic per table"]
+    K --> S1["Search index"]
+    K --> S2["Cache invalidator"]
+    K --> S3["Data warehouse"]
+    K --> S4["Downstream microservices"]
+    K --> S5["Audit / compliance log"]
+    style DBZ fill:#0b2545,color:#fff

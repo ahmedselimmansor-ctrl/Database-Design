@@ -1,0 +1,11 @@
+flowchart TD
+    L["Why replicas fall behind"] --> L1["Single-threaded apply<br/>while the primary wrote in parallel<br/>— the classic cause"]
+    L --> L2["A long-running query on the replica<br/>conflicts with apply"]
+    L --> L3["Replica hardware is weaker<br/>(a common false economy)"]
+    L --> L4["A huge transaction — one 50 M-row<br/>UPDATE arrives as one unit"]
+    L --> L5["Network saturation between sites"]
+    L --> L6["Lock contention on the replica"]
+
+    L1 --> F["Fixes: parallel apply where supported,<br/>batch large writes into chunks,<br/>match replica hardware,<br/>and eject lagging replicas from the read pool"]
+    style L1 fill:#0d3b66,color:#fff
+    style F fill:#14532d,color:#fff

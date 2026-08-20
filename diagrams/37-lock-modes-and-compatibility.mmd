@@ -1,0 +1,9 @@
+flowchart TD
+    M["Lock modes"] --> S["SHARED (S) — read<br/>many readers may hold it together"]
+    M --> X["EXCLUSIVE (X) — write<br/>only one holder, excludes everything"]
+    M --> U["UPDATE (U) — read with intent to write<br/>prevents the conversion deadlock"]
+    M --> IS["INTENT SHARED (IS)"]
+    M --> IX["INTENT EXCLUSIVE (IX)"]
+    M --> SIX["SHARED + INTENT EXCLUSIVE (SIX)"]
+    style X fill:#7d1128,color:#fff
+    style U fill:#0d3b66,color:#fff

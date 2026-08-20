@@ -1,0 +1,8 @@
+flowchart LR
+    C["Checkpoint"] --> C1["Flush all dirty buffer pages to data files"]
+    C --> C2["Write a checkpoint record to the WAL"]
+    C --> C3["WAL before this point can be recycled"]
+    C3 --> T["TRADE-OFF"]
+    T --> T1["Frequent: fast recovery, but<br/>constant I/O spikes hurting live queries"]
+    T --> T2["Infrequent: smooth steady-state I/O,<br/>but long recovery and large WAL"]
+    style T fill:#0b2545,color:#fff

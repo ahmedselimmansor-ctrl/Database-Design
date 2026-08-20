@@ -1,0 +1,12 @@
+flowchart TD
+    S["Access methods"] --> S1["Sequential scan<br/>read every page in order"]
+    S --> S2["Index scan<br/>walk the index, fetch each matching row"]
+    S --> S3["Index-only scan<br/>answer entirely from the index — no heap access"]
+    S --> S4["Bitmap heap scan<br/>collect row ids from index(es), sort them,<br/>then read heap pages IN PHYSICAL ORDER"]
+
+    S1 --> N1["Best when returning a large fraction.<br/>Sequential I/O, no random seeks"]
+    S2 --> N2["Best for high selectivity.<br/>One random page read per row"]
+    S3 --> N3["FASTEST. Requires a covering index<br/>and a current visibility map"]
+    S4 --> N4["The bridge between the two:<br/>converts random reads to sequential.<br/>Can combine MULTIPLE indexes with AND/OR"]
+    style S3 fill:#14532d,color:#fff
+    style S4 fill:#0d3b66,color:#fff

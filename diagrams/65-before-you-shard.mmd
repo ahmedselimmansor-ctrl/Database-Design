@@ -1,0 +1,11 @@
+flowchart TD
+    Q["Do I need to shard?"] --> A1["Have you added the right indexes?"]
+    A1 --> A2["Have you added read replicas?"]
+    A2 --> A3["Have you added a cache?"]
+    A3 --> A4["Have you archived or partitioned old data?"]
+    A4 --> A5["Have you tried a bigger machine?<br/>(128 cores / 2 TB RAM / NVMe<br/>is a very large amount of database)"]
+    A5 --> A6["Have you moved analytics off<br/>the OLTP instance?"]
+    A6 --> A7["Have you split by FUNCTION first?<br/>(orders DB, catalogue DB, auth DB)"]
+    A7 --> Y["Only now: shard."]
+    style Y fill:#7d1128,color:#fff
+    style A5 fill:#14532d,color:#fff

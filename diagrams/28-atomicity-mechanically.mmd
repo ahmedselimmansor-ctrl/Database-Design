@@ -1,0 +1,24 @@
+sequenceDiagram
+    participant T as Transaction
+    participant U as Undo log
+    participant B as Buffer pool
+    participant W as WAL
+
+    T->>W: BEGIN record
+    T->>U: save old value of row 5 (before image)
+    T->>B: modify row 5 in memory
+    T->>W: REDO record for row 5
+    T->>U: save old value of row 9
+    T->>B: modify row 9
+    T->>W: REDO record for row 9
+
+    alt COMMIT
+        T->>W: COMMIT record
+        W->>W: fsync — THE COMMIT POINT
+        Note over T,W: durable. Undo can be discarded<br/>once no other transaction needs it.
+    else ROLLBACK or crash
+        T->>U: read the undo log BACKWARDS
+        U->>B: restore row 9, then row 5
+        T->>W: ABORT record
+        Note over T,W: as if it never happened
+    end

@@ -1,0 +1,9 @@
+flowchart TD
+    B["Backup strategy"] --> F["Full — a complete copy"]
+    B --> I["Incremental — changes since the last backup"]
+    B --> W["Continuous WAL archiving"]
+
+    F --> F1["Simple restore. Large and slow."]
+    I --> I1["Small and fast. Restore needs the<br/>full plus every increment since —<br/>ONE missing increment breaks the chain."]
+    W --> W1["Base backup + continuous WAL<br/>⇒ POINT-IN-TIME RECOVERY:<br/>restore to any instant, including<br/>'one second before the bad DELETE'"]
+    style W fill:#14532d,color:#fff

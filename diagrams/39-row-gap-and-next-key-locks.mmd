@@ -1,0 +1,8 @@
+flowchart LR
+    subgraph idx["Index values: 10, 20, 30"]
+        G0["gap (−∞,10)"] --- V1["10"] --- G1["gap (10,20)"] --- V2["20"] --- G2["gap (20,30)"] --- V3["30"] --- G3["gap (30,+∞)"]
+    end
+    R["RECORD lock<br/>locks the index record 20 only"]
+    G["GAP lock<br/>locks the open interval (10,20) —<br/>prevents INSERT of 11..19"]
+    NK["NEXT-KEY lock<br/>= record + preceding gap = (10,20]<br/>InnoDB's default at REPEATABLE READ"]
+    style NK fill:#0d3b66,color:#fff

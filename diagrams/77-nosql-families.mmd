@@ -1,0 +1,15 @@
+flowchart TD
+    N["NoSQL"] --> KV["Key-value<br/>Redis, DynamoDB, Riak"]
+    N --> DOC["Document<br/>MongoDB, Couchbase, Firestore"]
+    N --> WC["Wide-column<br/>Cassandra, HBase, Bigtable, ScyllaDB"]
+    N --> GR["Graph<br/>Neo4j, Neptune, JanusGraph"]
+    N --> TS["Time-series<br/>InfluxDB, TimescaleDB, Prometheus"]
+    N --> VEC["Vector<br/>pgvector, Qdrant, Milvus, Pinecone"]
+
+    KV --> KV1["Model: opaque value by key<br/>Access: GET/SET/DEL only<br/>Use: sessions, counters, flags, caches"]
+    DOC --> DOC1["Model: nested JSON, per-document schema<br/>Access: by id, or by indexed field<br/>Use: catalogues, profiles, CMS, event payloads"]
+    WC --> WC1["Model: partition key + clustering key → wide rows<br/>Access: point, or range WITHIN a partition<br/>Use: time series, messages, event history"]
+    GR --> GR1["Model: nodes and edges with properties<br/>Access: traversal, pattern matching<br/>Use: social graph, fraud rings, permissions"]
+    TS --> TS1["Model: (metric, tags, timestamp, value)<br/>Access: range + aggregate by time<br/>Use: monitoring, IoT, financial ticks"]
+    VEC --> VEC1["Model: high-dimensional embeddings<br/>Access: approximate nearest neighbour<br/>Use: semantic search, RAG, recommendations"]
+    style WC fill:#134e4a,color:#fff

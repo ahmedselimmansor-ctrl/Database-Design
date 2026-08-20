@@ -1,0 +1,14 @@
+flowchart LR
+    subgraph o2o["One-to-one"]
+        A1["users"] --- A2["user_profiles<br/>PK = FK to users.id"]
+        A3["Use when: optional/rarely-read columns,<br/>different access frequency,<br/>or different security classification"]
+    end
+    subgraph o2m["One-to-many"]
+        B1["customers"] --- B2["orders<br/>customer_id FK"]
+        B3["The FK lives on the MANY side. Always."]
+    end
+    subgraph m2m["Many-to-many"]
+        C1["students"] --- C2["enrolments<br/>PK (student_id, course_id)"] --- C3["courses"]
+        C4["Requires a junction table.<br/>Put the relationship's own attributes<br/>(grade, enrolled_at) on it."]
+    end
+    style m2m fill:#134e4a,color:#fff

@@ -1,0 +1,9 @@
+flowchart TD
+    I["Adding an index"] --> W["Every INSERT: +1 tree insert"]
+    I --> U["Every UPDATE of an indexed column:<br/>delete + insert in the tree"]
+    I --> D["Every DELETE: +1 tree delete<br/>(or a tombstone)"]
+    I --> S["Disk: often 10-30% of table size each"]
+    I --> M["Memory: competes with the table<br/>for buffer pool pages"]
+    I --> V["Vacuum/maintenance: more to clean"]
+    I --> P["Planner: more options ⇒ slower planning,<br/>and more chances to choose wrong"]
+    style I fill:#0b2545,color:#fff

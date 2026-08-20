@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph seq["Sequential key — BIGSERIAL, UUIDv7"]
+        S1["Every insert goes to the RIGHTMOST leaf"]
+        S2["That page is always in cache"]
+        S3["Pages fill completely before splitting"]
+        S4["Result: 1 hot page, minimal I/O,<br/>dense index, small working set ✓"]
+    end
+    subgraph rnd["Random key — UUIDv4"]
+        R1["Each insert targets a RANDOM leaf"]
+        R2["That page is probably not cached<br/>⇒ read it, modify it, write it"]
+        R3["Pages split at ~50% full<br/>⇒ index is ~2x larger"]
+        R4["Result: random I/O per insert,<br/>working set = ENTIRE index,<br/>massive write amplification ✗"]
+    end
+    style seq fill:#14532d,color:#fff
+    style rnd fill:#7d1128,color:#fff

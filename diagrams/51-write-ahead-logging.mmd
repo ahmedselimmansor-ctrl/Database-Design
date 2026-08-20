@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant T as Transaction
+    participant B as Buffer pool (RAM)
+    participant W as WAL buffer
+    participant D as WAL file (disk)
+    participant H as Data files (disk)
+
+    T->>B: modify page 42 in memory (now "dirty")
+    T->>W: append REDO record for page 42
+    T->>B: modify page 87
+    T->>W: append REDO record for page 87
+    T->>W: append COMMIT record
+    W->>D: fsync
+    D-->>T: durable
+    T-->>T: NOW the client is told "committed"
+    Note over B,H: dirty pages are still only in RAM.<br/>The checkpointer writes them later, lazily.
+    B-->>H: background checkpoint writes page 42, 87

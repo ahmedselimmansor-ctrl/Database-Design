@@ -1,0 +1,10 @@
+flowchart TD
+    Q["Primary key choice"] --> N["Natural key<br/>e.g. email, SSN, ISBN"]
+    Q --> S["Surrogate key<br/>e.g. bigint, UUID"]
+    N --> N1["+ Meaningful, no extra column<br/>+ Joins may avoid a lookup"]
+    N --> N2["− Business meaning CHANGES<br/>  (people change email)<br/>− Wide keys bloat every index<br/>− PII propagates into every FK<br/>− Cascading updates everywhere"]
+    S --> S1["+ Immutable, narrow, fast<br/>+ No PII in foreign keys<br/>+ Independent of business rules"]
+    S --> S2["− Needs a UNIQUE on the natural key<br/>  anyway, or duplicates creep in"]
+    S1 --> A["Use a SURROGATE primary key<br/>PLUS a UNIQUE constraint on the<br/>natural key. You need both."]
+    style A fill:#14532d,color:#fff
+    style N2 fill:#7d1128,color:#fff

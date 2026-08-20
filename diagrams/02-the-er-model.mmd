@@ -1,0 +1,43 @@
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    CUSTOMER ||--o{ ADDRESS : has
+    ORDER ||--|{ ORDER_ITEM : contains
+    ORDER }o--|| ADDRESS : "ships to"
+    PRODUCT ||--o{ ORDER_ITEM : "appears in"
+    PRODUCT }o--|| CATEGORY : "belongs to"
+    PRODUCT ||--o{ INVENTORY : "stocked as"
+    WAREHOUSE ||--o{ INVENTORY : holds
+
+    CUSTOMER {
+        uuid id PK
+        text email UK
+        text name
+        timestamptz created_at
+    }
+    ORDER {
+        bigint id PK
+        uuid customer_id FK
+        bigint ship_address_id FK
+        text status
+        numeric total_amount
+        timestamptz placed_at
+    }
+    ORDER_ITEM {
+        bigint order_id PK,FK
+        bigint product_id PK,FK
+        int quantity
+        numeric unit_price_at_purchase
+    }
+    PRODUCT {
+        bigint id PK
+        text sku UK
+        text name
+        numeric current_price
+        bigint category_id FK
+    }
+    INVENTORY {
+        bigint product_id PK,FK
+        bigint warehouse_id PK,FK
+        int quantity_on_hand
+        int quantity_reserved
+    }

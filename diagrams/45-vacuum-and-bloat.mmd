@@ -1,0 +1,12 @@
+flowchart TD
+    U["1,000 UPDATEs to one row"] --> V["1,000 dead versions in the heap"]
+    V --> W["VACUUM marks their space reusable<br/>(does NOT return it to the OS)"]
+    W --> R["New rows reuse the space —<br/>the table stops growing"]
+    V --> B{"Vacuum cannot run<br/>or falls behind"}
+    B --> B1["Table grows without bound"]
+    B1 --> B2["Sequential scans read mostly dead space"]
+    B2 --> B3["Cache fills with dead tuples"]
+    B3 --> B4["Everything slows down"]
+    B --> B5["Transaction id wraparound risk —<br/>the database will refuse writes<br/>to protect itself"]
+    style B4 fill:#7d1128,color:#fff
+    style B5 fill:#7d1128,color:#fff

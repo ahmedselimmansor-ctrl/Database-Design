@@ -1,0 +1,17 @@
+flowchart TD
+    subgraph nl["Nested loop"]
+        N1["for each row in OUTER:<br/>  for each match in INNER:<br/>    emit"]
+        N2["Cost ≈ outer_rows x inner_lookup_cost"]
+        N3["✓ Small outer + indexed inner<br/>✗ Catastrophic when the outer is large"]
+    end
+    subgraph hj["Hash join"]
+        H1["Build a hash table on the SMALLER side,<br/>then probe it with the larger"]
+        H2["Cost ≈ build + probe, roughly linear"]
+        H3["✓ Large unindexed equality joins<br/>✗ Equality only; needs memory<br/>  (spills to disk in batches if short)"]
+    end
+    subgraph mj["Merge join"]
+        M1["Sort both inputs on the join key,<br/>then walk them in lockstep"]
+        M2["Cost ≈ sort + linear merge"]
+        M3["✓ Both already sorted (index order)<br/>✓ Supports inequality joins<br/>✗ Sorting is expensive if not free"]
+    end
+    style hj fill:#134e4a,color:#fff

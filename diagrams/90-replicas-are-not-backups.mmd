@@ -1,0 +1,5 @@
+flowchart LR
+    E["DELETE FROM orders;  -- no WHERE"] --> P["Primary"] --> R1["Replica 1<br/>faithfully deletes everything"]
+    P --> R2["Replica 2<br/>same"]
+    N["Replication propagates MISTAKES<br/>with perfect fidelity and sub-second latency.<br/>Only a point-in-time backup can undo this."]
+    style N fill:#7d1128,color:#fff

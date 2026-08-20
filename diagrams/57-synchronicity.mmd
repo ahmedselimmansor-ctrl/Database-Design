@@ -1,0 +1,30 @@
+sequenceDiagram
+    participant C as Client
+    participant P as Primary
+    participant R1 as Replica 1
+    participant R2 as Replica 2
+
+    Note over C,R2: ASYNCHRONOUS
+    C->>P: COMMIT
+    P->>P: fsync WAL locally
+    P-->>C: OK
+    P->>R1: stream WAL (whenever)
+    P->>R2: stream WAL
+    Note over P,R2: fastest. If the primary dies now,<br/>this committed write is LOST.
+
+    Note over C,R2: SEMI-SYNCHRONOUS
+    C->>P: COMMIT
+    P->>P: fsync locally
+    P->>R1: stream
+    R1-->>P: acked (durable on R1)
+    P-->>C: OK
+    Note over P,R2: one replica always has it.<br/>+1 network RTT. R2 catches up later.
+
+    Note over C,R2: FULLY SYNCHRONOUS
+    C->>P: COMMIT
+    P->>R1: stream
+    P->>R2: stream
+    R1-->>P: acked
+    R2-->>P: acked
+    P-->>C: OK
+    Note over P,R2: no loss possible. But the SLOWEST replica<br/>determines commit latency, and one dead<br/>replica blocks ALL writes.

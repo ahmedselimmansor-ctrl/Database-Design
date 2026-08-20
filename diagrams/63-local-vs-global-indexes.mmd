@@ -1,0 +1,10 @@
+flowchart LR
+    subgraph loc["Local index — one per partition"]
+        L1["Each partition has its own index"]
+        L2["+ DROP/ATTACH partition is instant<br/>+ Maintenance is parallel and independent<br/>− A query without the partition key<br/>  must search EVERY partition"]
+    end
+    subgraph glob["Global index — one across all"]
+        G1["Single index spanning every partition"]
+        G2["+ Non-partition-key lookups are one seek<br/>− DROP PARTITION must delete its entries<br/>  ⇒ no longer instant<br/>− A global uniqueness constraint<br/>  requires this"]
+    end
+    style loc fill:#14532d,color:#fff

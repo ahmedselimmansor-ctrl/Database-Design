@@ -1,0 +1,7 @@
+flowchart TD
+    C["Ordering across machines"] --> W["Wall clocks<br/>NTP skew of tens of ms is routine.<br/>UNUSABLE for correctness."]
+    C --> H["Hybrid logical clocks<br/>physical time + logical counter.<br/>Causally correct, close to real time.<br/>Used by CockroachDB, MongoDB, YugabyteDB."]
+    C --> TT["TrueTime — Google Spanner<br/>GPS + atomic clocks in every datacentre.<br/>Returns an INTERVAL [earliest, latest],<br/>typically ~1-7 ms wide."]
+    TT --> CW["COMMIT WAIT: after choosing a timestamp,<br/>sleep until the interval has certainly passed.<br/>⇒ no two transactions can overlap<br/>⇒ EXTERNAL CONSISTENCY globally"]
+    style TT fill:#0b2545,color:#fff
+    style CW fill:#14532d,color:#fff

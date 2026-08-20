@@ -1,0 +1,11 @@
+flowchart TD
+    A["Application: COMMIT"] --> B["DB WAL buffer (process memory)"]
+    B --> C["write() → OS page cache (kernel memory)"]
+    C --> D["fsync() → storage device"]
+    D --> E["Device write cache (volatile!)"]
+    E --> F["Persistent media"]
+
+    W1["Crash here loses data<br/>unless fsync completed"] -.-> C
+    W2["A device with a volatile write cache and no<br/>power-loss protection can ACK an fsync<br/>before the data is durable.<br/>Enterprise SSDs have PLP capacitors;<br/>consumer SSDs often do not."] -.-> E
+    style D fill:#14532d,color:#fff
+    style W2 fill:#7d1128,color:#fff

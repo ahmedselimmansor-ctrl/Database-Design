@@ -1,0 +1,20 @@
+flowchart TD
+    ROOT["Root: [50 | 100]"]
+    I1["Internal: [10 | 30]"]
+    I2["Internal: [60 | 80]"]
+    I3["Internal: [120 | 150]"]
+    L1["Leaf: 5,8,10 → row ptrs"]
+    L2["Leaf: 15,22,30"]
+    L3["Leaf: 55,58,60"]
+    L4["Leaf: 65,72,80"]
+    L5["Leaf: 110,115,120"]
+    L6["Leaf: 130,145,150"]
+
+    ROOT --> I1 & I2 & I3
+    I1 --> L1 & L2
+    I2 --> L3 & L4
+    I3 --> L5 & L6
+    L1 -.->|"linked list"| L2 -.-> L3 -.-> L4 -.-> L5 -.-> L6
+
+    N["All values in LEAVES only.<br/>Leaves are doubly linked ⇒ a range scan<br/>walks sideways without revisiting the tree.<br/>High fan-out ⇒ depth 3-4 even for billions of rows."]
+    style N fill:#422006,color:#fff

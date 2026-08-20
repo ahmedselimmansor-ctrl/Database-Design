@@ -1,0 +1,4 @@
+flowchart LR
+    S0["Index correctly"] --> S1["Tune configuration<br/>buffer pool, work_mem, autovacuum"] --> S2["Connection pooler"] --> S3["Cache (buffer pool first,<br/>then Redis)"] --> S4["Read replicas"] --> S5["Partition large tables"] --> S6["Split by function<br/>separate databases per domain"] --> S7["Shard, or move to<br/>distributed SQL"]
+    style S0 fill:#14532d,color:#fff
+    style S7 fill:#7d1128,color:#fff

@@ -1,0 +1,8 @@
+flowchart TD
+    A["Application"] --> R["Routing layer<br/>proxy, or a library in the app"]
+    R -->|"shard_key → shard"| S1[("Shard 1<br/>primary + replicas<br/>users 0-2.5M")]
+    R --> S2[("Shard 2<br/>users 2.5-5M")]
+    R --> S3[("Shard 3<br/>users 5-7.5M")]
+    R --> S4[("Shard 4<br/>users 7.5-10M")]
+    R --> M[("Shard map<br/>authoritative,<br/>cached everywhere")]
+    style R fill:#0b2545,color:#fff

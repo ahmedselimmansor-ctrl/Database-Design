@@ -1,0 +1,14 @@
+sequenceDiagram
+    participant U as User
+    participant A as App
+    participant P as Primary
+    participant R as Replica
+
+    U->>A: save profile
+    A->>P: UPDATE profiles ...
+    P-->>A: OK
+    A-->>U: "Saved"
+    U->>A: reload the page
+    A->>R: SELECT profile   (load balancer chose a replica)
+    R-->>A: the OLD value (300 ms behind)
+    A-->>U: shows the old bio ⚠ "it didn't save"

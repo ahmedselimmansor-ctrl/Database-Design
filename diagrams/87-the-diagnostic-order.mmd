@@ -1,0 +1,14 @@
+flowchart TD
+    S["It's slow"] --> M["1. MEASURE — which query?<br/>pg_stat_statements / slow query log"]
+    M --> E["2. EXPLAIN ANALYZE it"]
+    E --> C{"3. Estimated vs actual rows"}
+    C -->|"way off"| ST["Statistics problem<br/>→ ANALYZE, extended statistics"]
+    C -->|"close"| P{"4. What dominates the time?"}
+    P -->|"Seq Scan"| IX["Missing or unusable index"]
+    P -->|"Sort spilling to disk"| WM["work_mem too small"]
+    P -->|"Nested Loop, huge loops"| J["Bad join order — usually cardinality"]
+    P -->|"high Buffers: read"| MEM["Working set exceeds the buffer pool"]
+    P -->|"Heap Fetches high"| VAC["Vacuum / visibility map"]
+    P -->|"plan is fine, still slow"| APP["It's not the query —<br/>N+1, network, or serialisation"]
+    style M fill:#14532d,color:#fff
+    style C fill:#0b2545,color:#fff

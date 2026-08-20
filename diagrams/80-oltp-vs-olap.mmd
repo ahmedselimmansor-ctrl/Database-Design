@@ -1,0 +1,19 @@
+flowchart TD
+    subgraph oltp["OLTP — transactional"]
+        T1["Many small reads and writes"]
+        T2["Point lookups by key"]
+        T3["Latency: milliseconds"]
+        T4["Normalised, row-oriented"]
+        T5["Current state; indexes everywhere"]
+    end
+    subgraph olap["OLAP — analytical"]
+        A1["Few enormous read queries"]
+        A2["Full scans and aggregations<br/>over selected columns"]
+        A3["Latency: seconds to minutes"]
+        A4["Denormalised, column-oriented"]
+        A5["Historical; compression over indexing"]
+    end
+    W["Running OLAP on your OLTP database<br/>evicts the hot working set from the buffer pool,<br/>holds long snapshots that block vacuum,<br/>and makes user-facing latency unpredictable."]
+    oltp -.->|"ETL / ELT / CDC"| olap
+    style W fill:#7d1128,color:#fff
+    style olap fill:#4a044e,color:#fff

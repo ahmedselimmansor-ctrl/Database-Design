@@ -1,0 +1,10 @@
+flowchart LR
+    subgraph rel["Relational"]
+        R1["1. Model the entities"] --> R2["2. Normalise"] --> R3["3. Write any query<br/>the planner figures it out"]
+    end
+    subgraph nos["NoSQL — wide-column and KV especially"]
+        N1["1. List every access pattern"] --> N2["2. Design the key structure<br/>to serve them"] --> N3["3. DUPLICATE data into<br/>as many tables as needed"]
+        N4["A query you did not design for<br/>is a query you cannot run efficiently."]
+    end
+    style nos fill:#134e4a,color:#fff
+    style N4 fill:#422006,color:#fff

@@ -1,0 +1,14 @@
+flowchart LR
+    subgraph o["OFFSET 100000 LIMIT 20"]
+        O1["The engine must fetch and discard<br/>100,000 rows first"]
+        O2["Cost grows linearly with depth"]
+        O3["Concurrent inserts shift the window<br/>⇒ duplicated and skipped rows"]
+    end
+    subgraph k["Keyset / cursor"]
+        K1["WHERE (created_at, id) < (:ts, :id)<br/>ORDER BY created_at DESC, id DESC<br/>LIMIT 20"]
+        K2["Index seek — constant cost at any depth"]
+        K3["Stable under concurrent inserts"]
+        K4["Cannot jump to an arbitrary page"]
+    end
+    style o fill:#7d1128,color:#fff
+    style k fill:#14532d,color:#fff

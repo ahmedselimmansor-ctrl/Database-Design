@@ -1,0 +1,8 @@
+flowchart TD
+    Q["Query"] --> L1["1. Application memory<br/>~100 ns"]
+    L1 -->|"miss"| L2["2. Distributed cache — Redis<br/>~0.5 ms"]
+    L2 -->|"miss"| L3["3. Database buffer pool<br/>~1 µs if the page is resident"]
+    L3 -->|"miss"| L4["4. OS page cache"]
+    L4 -->|"miss"| L5["5. Disk<br/>~0.1-10 ms"]
+    style L2 fill:#14532d,color:#fff
+    style L5 fill:#7d1128,color:#fff

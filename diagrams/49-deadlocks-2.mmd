@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant A as Txn A
+    participant D as Database
+    participant B as Txn B
+
+    A->>D: UPDATE accounts SET bal = bal - 100 WHERE id = 1
+    Note over D: A holds X lock on row 1
+    B->>D: UPDATE accounts SET bal = bal - 50 WHERE id = 2
+    Note over D: B holds X lock on row 2
+    A->>D: UPDATE accounts SET bal = bal + 100 WHERE id = 2
+    Note over A: A blocks — B holds row 2
+    B->>D: UPDATE accounts SET bal = bal + 50 WHERE id = 1
+    Note over B: B blocks — A holds row 1
+    D->>D: deadlock detector finds the cycle
+    D-->>B: ERROR 40P01 deadlock detected — B chosen as victim
+    Note over B: B rolls back. A proceeds.<br/>B's application MUST retry.

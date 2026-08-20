@@ -1,0 +1,5 @@
+flowchart LR
+    T1["Txn 1<br/>holds lock on A<br/>wants lock on B"] -->|"waits for"| T2["Txn 2<br/>holds lock on B<br/>wants lock on A"]
+    T2 -->|"waits for"| T1
+    C["A cycle in the wait-for graph.<br/>Neither can ever proceed."]
+    style C fill:#7d1128,color:#fff

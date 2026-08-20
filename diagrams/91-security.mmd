@@ -1,0 +1,9 @@
+flowchart TD
+    L1["Network — private subnets, no public endpoint,<br/>IP allowlists, TLS required"] --> L2["Authentication — per-service accounts,<br/>certificate or IAM auth, no shared passwords"]
+    L2 --> L3["Authorisation — least privilege per role.<br/>The app does NOT need DDL or superuser."]
+    L3 --> L4["Row-level security — tenant isolation<br/>enforced by the DATABASE"]
+    L4 --> L5["Column encryption — PII encrypted with<br/>keys held in a KMS, not in the database"]
+    L5 --> L6["Audit — who read or changed what, immutably"]
+    L6 --> L7["Backups — encrypted, key stored separately"]
+    style L3 fill:#0b2545,color:#fff
+    style L4 fill:#14532d,color:#fff

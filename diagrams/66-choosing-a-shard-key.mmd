@@ -1,0 +1,7 @@
+flowchart TD
+    K["Common shard keys"] --> K1["user_id / tenant_id<br/>✓ Best for most SaaS and consumer apps —<br/>a user's data lives together"]
+    K --> K2["Geographic region<br/>✓ Data residency, latency locality<br/>✗ Very uneven population"]
+    K --> K3["Hash of the entity id<br/>✓ Perfectly even<br/>✗ No range queries, related data scatters"]
+    K --> K4["Timestamp<br/>✗✗ ALL writes hit today's shard.<br/>Never shard on time alone."]
+    style K1 fill:#14532d,color:#fff
+    style K4 fill:#7d1128,color:#fff

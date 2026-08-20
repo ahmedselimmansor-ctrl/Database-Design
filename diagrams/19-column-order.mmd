@@ -1,0 +1,7 @@
+flowchart TD
+    O["Ordering a composite index"] --> R1["1. Equality columns first<br/>(=, IN)"]
+    R1 --> R2["2. Then ONE range column<br/>(&gt;, &lt;, BETWEEN)"]
+    R2 --> R3["3. Then ORDER BY columns"]
+    R3 --> R4["4. Then columns needed only<br/>for output (or use INCLUDE)"]
+    R4 --> N["A range column STOPS the index<br/>from being used for anything after it.<br/>Only one range column is useful."]
+    style N fill:#422006,color:#fff

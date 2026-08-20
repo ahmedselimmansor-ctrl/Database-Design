@@ -1,0 +1,14 @@
+flowchart TD
+    Q["Tree or hierarchy?"] --> A["Adjacency list<br/>parent_id"]
+    Q --> B["Path enumeration<br/>path = '/1/7/22/'"]
+    Q --> C["Nested sets<br/>lft, rgt"]
+    Q --> D["Closure table<br/>(ancestor, descendant, depth)"]
+    Q --> E["Recursive CTE over adjacency list"]
+
+    A --> A1["Trivial writes. Reading a subtree<br/>needs recursion (fine in modern SQL)"]
+    B --> B1["Subtree query is a LIKE prefix scan.<br/>Moves rewrite every descendant"]
+    C --> C1["Fast reads. Any insert rewrites<br/>half the table. Rarely worth it"]
+    D --> D1["Fast reads AND writes.<br/>O(depth) rows per node. Best for<br/>deep, frequently-queried hierarchies"]
+    E --> E1["Adjacency list + WITH RECURSIVE<br/>= the pragmatic default"]
+    style E fill:#14532d,color:#fff
+    style D fill:#0d3b66,color:#fff

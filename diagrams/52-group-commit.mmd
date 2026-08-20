@@ -1,0 +1,8 @@
+flowchart TD
+    subgraph no["One fsync per commit"]
+        N1["100 transactions"] --> N2["100 fsyncs x 1 ms"] --> N3["100 ms total<br/>~1,000 TPS ceiling"]
+    end
+    subgraph yes["Group commit"]
+        Y1["100 transactions arrive within a small window"] --> Y2["Their WAL records batch together"] --> Y3["ONE fsync durably commits all 100"] --> Y4["1 ms total<br/>~100,000 TPS possible"]
+    end
+    style yes fill:#14532d,color:#fff

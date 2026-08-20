@@ -1,0 +1,15 @@
+flowchart TD
+    subgraph bt["B+Tree — read-optimised"]
+        B1["Balanced tree, all data in leaves"]
+        B2["Leaves are linked ⇒ range scans are sequential"]
+        B3["Writes: find the page, modify IN PLACE<br/>(random I/O), split on overflow"]
+        B4["Read: O(log n), typically 3-4 page reads<br/>Predictable latency<br/>Write amplification ~2-10x"]
+    end
+    subgraph lsm["LSM tree — write-optimised"]
+        L1["Writes go to an in-memory memtable<br/>+ a WAL append"]
+        L2["Memtable full ⇒ flush to an immutable,<br/>sorted SSTable on disk"]
+        L3["Background compaction merges SSTables<br/>and discards obsolete versions"]
+        L4["Write: sequential, very fast ✓<br/>Read: may check several levels ✗<br/>(bloom filters mitigate)<br/>Space amplification + compaction spikes"]
+    end
+    style bt fill:#0b2545,color:#fff
+    style lsm fill:#134e4a,color:#fff

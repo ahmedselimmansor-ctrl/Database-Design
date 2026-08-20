@@ -1,0 +1,9 @@
+flowchart TD
+    subgraph poll["Query-based polling"]
+        P1["SELECT * WHERE updated_at > :last"] --> P2["✗ Misses DELETEs entirely<br/>✗ Misses intra-poll updates<br/>✗ Adds load to the source<br/>✗ Needs a reliable updated_at<br/>✓ Trivial to implement"]
+    end
+    subgraph cdcl["Log-based CDC"]
+        C1["Read the WAL / binlog directly"] --> C2["✓ Captures INSERT, UPDATE and DELETE<br/>✓ Exact commit ORDER<br/>✓ Before AND after images<br/>✓ Near-zero load on the source<br/>✓ Sub-second latency<br/>− A replication slot to operate carefully"]
+    end
+    style cdcl fill:#14532d,color:#fff
+    style poll fill:#3b0d0d,color:#fff

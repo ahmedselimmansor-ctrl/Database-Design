@@ -1,0 +1,11 @@
+flowchart LR
+    subgraph row["Row store — OLTP"]
+        R1["Page: [id=1,name=A,price=10,qty=5]<br/>[id=2,name=B,price=20,qty=3]"]
+        R2["Reading one whole row: 1 page ✓<br/>SUM(price) over 100M rows:<br/>reads every column of every row ✗"]
+    end
+    subgraph col["Column store — OLAP"]
+        C1["id:    [1,2,3,4,...]<br/>name:  [A,B,C,D,...]<br/>price: [10,20,30,40,...]"]
+        C2["SUM(price): reads ONLY the price column ✓<br/>Compresses 5-20x (similar values adjacent) ✓<br/>Vectorised SIMD execution ✓<br/>Reading one whole row: N column reads ✗<br/>Single-row UPDATE: expensive ✗"]
+    end
+    style row fill:#0b2545,color:#fff
+    style col fill:#4a044e,color:#fff

@@ -1,0 +1,9 @@
+flowchart TD
+    D["Database"] --> T["Table"] --> P["Page"] --> R["Row"]
+    R --> RN["Finest granularity<br/>Maximum concurrency<br/>Most lock-manager memory and CPU"]
+    T --> TN["Coarsest practical granularity<br/>Minimal overhead<br/>Blocks everyone"]
+
+    I["Why INTENT locks exist"] --> I1["To lock a whole table, the engine must know<br/>no row locks conflict — checking every row<br/>would be O(rows)"]
+    I1 --> I2["So a row lock also sets an INTENT lock<br/>on the page and the table"]
+    I2 --> I3["A table-level X request checks ONE<br/>table-level entry and sees the IX. O(1)."]
+    style I3 fill:#14532d,color:#fff

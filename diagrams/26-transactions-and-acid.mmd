@@ -1,0 +1,12 @@
+flowchart TD
+    T["ACID"] --> A["ATOMICITY<br/>all operations commit, or none do"]
+    T --> C["CONSISTENCY<br/>the database moves from one<br/>valid state to another"]
+    T --> I["ISOLATION<br/>concurrent transactions do not<br/>corrupt each other"]
+    T --> D["DURABILITY<br/>once committed, it survives<br/>crash, power loss, restart"]
+
+    A --> A1["Mechanism: UNDO log / rollback segments.<br/>On abort, apply the inverse of every change."]
+    C --> C1["Mechanism: constraints, FKs, triggers,<br/>types. NOTE: this is the APPLICATION's<br/>invariants, enforced by the DB.<br/>It is the odd letter out."]
+    I --> I1["Mechanism: locks, MVCC, or OCC.<br/>Tunable via isolation LEVELS —<br/>you rarely get full isolation by default."]
+    D --> D1["Mechanism: write-ahead log + fsync,<br/>then checkpoints, then replication."]
+    style A fill:#0b2545,color:#fff
+    style I fill:#7d1128,color:#fff
